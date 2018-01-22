@@ -4,19 +4,19 @@ const express = require('express');
 const pg = require('pg');
 const bodyParser = require('body-parser');
 const app = express();
-const PORT = process.env.PORT || 3000;
+const PORT = process.env.PORT;
 
-const connectionString = 'postgres://localhost:5432/weasel';
+const connectionString = process.env.DATABASE_URL;
 const client = new pg.Client(connectionString);
 client.connect();
 
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: true }));
-app.use(express.static('./public'));
+// app.use(express.static('./public'));
 
-app.get('/', function(request, response) {
-  response.sendFile('./public/index.html');
-});
+// app.get('/', function(request, response) {
+//   response.sendFile('./public/index.html');
+// });
 
 app.get('/db/person', function(request, response) {
   client.query('SELECT * FROM persons;')
